@@ -1011,4 +1011,7 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
     <string name="pbupdate_settings_title">ProBam updates</string>
     <string name="pbupdate_settings_summary">Check for, view or install available updates</string>
 
+    <!-- GPS download data over wi-fi only -->
+    <string name="gps_download_data_wifi_only">Download GPS assisted data only over Wi-Fi networks</string>
+
 </resources>
