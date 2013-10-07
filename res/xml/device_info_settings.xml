@@ -49,6 +49,15 @@
             android:title="@string/probam_stats"
             android:summary="@string/probam_stats_summary" >
         </PreferenceScreen>
+        
+        <!-- CyanogenMod Updates -->
+        <PreferenceScreen android:key="probam_updates"
+                android:title="@string/pbupdate_settings_title" 
+                android:summary="@string/pbupdate_settings_summary">
+            <intent android:action="android.intent.action.MAIN"
+                    android:targetPackage="com.probam.updater"
+                    android:targetClass="com.probam.updater.UpdatesSettings" />
+        </PreferenceScreen>
 		
         </PreferenceCategory>
 
