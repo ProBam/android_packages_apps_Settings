@@ -233,6 +233,7 @@ public class Settings extends Activity {
     public static class DeviceInfoSettingsActivity extends MainSetting { /* empty */ }
     public static class ApplicationSettingsActivity extends MainSetting { /* empty */ }
     public static class ManageApplicationsActivity extends MainSetting { /* empty */ }
+    public static class AppOpsDetailsActivity extends MainSetting { /* empty */ }
     public static class AppOpsSummaryActivity extends MainSetting { /* empty */ }
     public static class StorageUseActivity extends MainSetting { /* empty */ }
     public static class DevelopmentSettingsActivity extends MainSetting { /* empty */ }
