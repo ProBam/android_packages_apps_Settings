@@ -99,6 +99,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
     private static final String LOCKSCREEN_QUICK_UNLOCK_CONTROL = "quick_unlock_control";
     private static final String KEY_SMS_SECURITY_CHECK_PREF = "sms_security_check_limit";
     private static final String LOCK_NUMPAD_RANDOM = "lock_numpad_random";
+    private static final String SIMPIN_RANDOM = "simpin_random";
     private static final String KEY_APP_SECURITY_CATEGORY = "app_security";
     private static final String KEY_BLACKLIST = "blacklist";
     private static final String CATEGORY_ADDITIONAL = "additional_options";
@@ -109,6 +110,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
     private ChooseLockSettingsHelper mChooseLockSettingsHelper;
     private LockPatternUtils mLockPatternUtils;
     private ListPreference mLockNumpadRandom;
+    private ListPreference mSimPinRandom;
     private ListPreference mLockAfter;
 
     private CheckBoxPreference mBiometricWeakLiveliness;
@@ -301,6 +303,13 @@ public class SecuritySettings extends SettingsPreferenceFragment
             mLockNumpadRandom.setSummary(mLockNumpadRandom.getEntry());
             mLockNumpadRandom.setOnPreferenceChangeListener(this);
 
+            // Lock SimPin Random
+            mSimPinRandom = (ListPreference) root.findPreference(SIMPIN_RANDOM);
+            mSimPinRandom.setValue(String.valueOf(Settings.Secure.getInt(resolver,
+                    Settings.Secure.SIMPIN_RANDOM, 0)));
+            mSimPinRandom.setSummary(mSimPinRandom.getEntry());
+            mSimPinRandom.setOnPreferenceChangeListener(this);
+
             // disable lock options if lock screen set to NONE
             // or if using pattern as a primary lock screen or
             // as a backup to biometric
@@ -388,8 +397,10 @@ public class SecuritySettings extends SettingsPreferenceFragment
 
             // Do not display SIM lock for devices without an Icc card
             TelephonyManager tm = TelephonyManager.getDefault();
+            mSimPinRandom.setEnabled(true);
             if (!mIsPrimary || !tm.hasIccCard()) {
                 root.removePreference(root.findPreference(KEY_SIM_LOCK));
+                mSimPinRandom.setEnabled(false);
             } else {
                 // Disable SIM lock if sim card is missing or unknown
                 if ((TelephonyManager.getDefault().getSimState() ==
@@ -397,6 +408,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
                     (TelephonyManager.getDefault().getSimState() ==
                                      TelephonyManager.SIM_STATE_UNKNOWN)) {
                     root.findPreference(KEY_SIM_LOCK).setEnabled(false);
+                    mSimPinRandom.setEnabled(false);
                 }
             }
 
@@ -843,6 +855,12 @@ public class SecuritySettings extends SettingsPreferenceFragment
                     Integer.valueOf((String) value));
             mLockNumpadRandom.setValue(String.valueOf(value));
             mLockNumpadRandom.setSummary(mLockNumpadRandom.getEntry());
+        } else if (preference == mSimPinRandom) {
+            Settings.Secure.putInt(getActivity().getContentResolver(),
+                    Settings.Secure.SIMPIN_RANDOM,
+                    Integer.valueOf((String) value));
+            mSimPinRandom.setValue(String.valueOf(value));
+            mSimPinRandom.setSummary(mSimPinRandom.getEntry());
         }
         return true;
     }

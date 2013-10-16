@@ -1032,6 +1032,8 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
     <string name="lock_numpad_random_always">Always</string>
     <string name="lock_numpad_random_on_request">On request</string>
 
+    <string name="simpin_random_title">Change the order of SIM PIN pad numbers</string>
+
     <!-- Button shorcut actions -->
     <string name="shortcut_action_app">Custom app</string>
     <string name="shortcut_action_home">Home</string>
