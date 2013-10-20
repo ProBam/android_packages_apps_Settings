@@ -66,7 +66,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     /** If there is no setting in the provider, use this. */
     private static final int FALLBACK_SCREEN_TIMEOUT_VALUE = 30000;
 
-    private static final String STATUS_BAR_BRIGHTNESS_CONTROL = "status_bar_brightness_control";
+    private static final String STATUS_BAR_BRIGHTNESS = "statusbar_brightness_slider";
     private static final String KEY_SCREEN_TIMEOUT = "screen_timeout";
     private static final String KEY_ACCELEROMETER = "accelerometer";
     private static final String KEY_SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
@@ -87,7 +87,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     private DisplayManager mDisplayManager;
 
 
-    private CheckBoxPreference mStatusBarBrightnessControl;
+    private CheckBoxPreference mStatusbarSliderPreference;
 
     private CheckBoxPreference mAccelerometer;
     private CheckBoxPreference mSwapVolumeButtons;
@@ -133,9 +133,9 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         PreferenceScreen prefSet = getPreferenceScreen();
         mContext = getActivity();
 
-        mStatusBarBrightnessControl = (CheckBoxPreference) prefSet.findPreference(STATUS_BAR_BRIGHTNESS_CONTROL);
-        mStatusBarBrightnessControl.setChecked((Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
-                Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0) == 1));
+        mStatusbarSliderPreference = (CheckBoxPreference) findPreference(STATUS_BAR_BRIGHTNESS);
+        mStatusbarSliderPreference.setChecked((Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
+                Settings.System.STATUSBAR_BRIGHTNESS_SLIDER, 0) == 1));
 
         mAccelerometer = (CheckBoxPreference) findPreference(KEY_ACCELEROMETER);
         mAccelerometer.setPersistent(false);
@@ -214,7 +214,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         }
 
         if (Utils.isTablet()) {
-            prefSet.removePreference(mStatusBarBrightnessControl);
+            prefSet.removePreference(mStatusbarSliderPreference);
         }
 
         // respect device default configuration
@@ -445,11 +445,10 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         boolean value;
 
-        if (preference == mStatusBarBrightnessControl) {
-        value = mStatusBarBrightnessControl.isChecked();
+        if (preference == mStatusbarSliderPreference) {
+            value = mStatusbarSliderPreference.isChecked();
             Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
-                    Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL,
-                    value ? 1 : 0);
+                    Settings.System.STATUSBAR_BRIGHTNESS_SLIDER, value ? 1 : 0);
             return true;
         } else if (preference == mAccelerometer) {
             RotationPolicy.setRotationLockForAccessibility(
